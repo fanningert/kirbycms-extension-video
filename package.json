@@ -1,0 +1,9 @@
+{
+    "name": "video",
+    "readable": "HTML5 Video",
+    "version": "0.3",
+    "stable": true,
+    "description": "Display a video via the HTML5 video tag.",
+    "author": "Thomas Fanninger",
+    "url": "http://thomas.fanninger.at"
+}
