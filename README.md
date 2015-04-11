@@ -1,12 +1,12 @@
 # Kirby Extension - VideoExt
 
-*Version:* 1.0
+*Version:* 1.1
+
+This plugin adds a new `video` and `videoext` Kirbytext tag which enables you to embed your video clips easily and HTML5 compatible.
 
 **Attention:** In this version I changed the used custom config variable for a better usage with other extension and kirby. Also the default kirbytext tag is now `videoext` but you can reactivate the `video` tag support via config variables.
 
 **Info:** When you don't use the snipped, you get a wrong HTML code. This is a existend bug of kirby in version 2.0.6. In the current develop version is this bug corrected. https://github.com/getkirby/kirby/issues/226
-
-Display a video via the HTML5 video tag.
 
 ## KirbyText options
 
@@ -50,7 +50,7 @@ Display a video via the HTML5 video tag.
 
 ## Hint to convert a video file into different file formats
 
-Thanks goes to "@derhuerst" for this script.
+Thanks goes to https://github.com/derhuerst for this script.
 
 ```bash
 #!/bin/bash
@@ -98,11 +98,15 @@ ffmpeg -i $1 -acodec libvorbis -vcodec libtheora -vb 8000k -f ogv $file.hq.ogv
 (videoext: mp4: http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4 webm: http://www.quirksmode.org/html5/videos/big_buck_bunny.webm ogg: http://www.quirksmode.org/html5/videos/big_buck_bunny.ogv)
 ```
 
-### Reactivate the default video tag
+### Deactivate the default video tag
 
-Insert the config line `c::set('kirby.extension.videoext.video_tag', true);` into to the `config.php`. At this momenten the `video` will also supported, with the same parameters like the `videoext` tag.
+Insert the config line `c::set('kirby.extension.videoext.video_tag', true);` into to the `config.php`. At this momenten the `video` tag will also supported, with the same parameters like the `videoext` tag.
 
 ## Changelog
+
+## v1.1
+
+* Change the default value of `kirby.extension.videoext.video_tag` from `false` to `true`.
 
 ## v1.0
 
