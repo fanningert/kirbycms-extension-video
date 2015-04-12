@@ -224,12 +224,9 @@ class VideoExt {
 			$file = $tag->file ( $tag->attr ( 'webm' ) );
 			$url_webm = ($file) ? $file->url () : $tag->attr ( 'webm' );
 			
-			if (! empty ( $url_ogg ))
-				$videoext->addSource ( $url_ogg, 'video/ogg' );
-			if (! empty ( $url_mp4 ))
-				$videoext->addSource ( $url_mp4, 'video/mp4' );
-			if (! empty ( $url_webm ))
-				$videoext->addSource ( $url_webm, 'video/webm' );
+			$videoext->addSource ( $url_ogg, 'video/ogg' );
+			$videoext->addSource ( $url_mp4, 'video/mp4' );
+			$videoext->addSource ( $url_webm, 'video/webm' );
 			
 			return $videoext->toHtml ();
 		} catch ( VideoExtException $e ) {
