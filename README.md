@@ -104,6 +104,11 @@ Insert the config line `c::set('kirby.extension.videoext.video_tag', true);` int
 
 ## Changelog
 
+## v1.2
+
+* Fix: Poster will be added
+* Class now check if the source is a video from page object or a external video
+
 ## v1.1
 
 * Clean up

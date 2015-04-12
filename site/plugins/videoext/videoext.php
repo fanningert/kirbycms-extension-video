@@ -144,11 +144,20 @@ class VideoExt {
 				$video->attr ( 'loop', 'loop' );
 			if ($this->getOption ( VideoExt::OPTION_MUTED ) == true)
 				$video->attr ( 'muted', 'muted' );
+			if ($this->getOption ( VideoExt::POSTER ) != null){
+				$file = $this->page->file ( $this->getOption ( VideoExt::POSTER ) );
+				$url_poster = ($file) ? $file->url () : $this->getOption ( VideoExt::POSTER );
+				$video->attr ( 'poster', $url_poster );
+			}
 				
 				// Add Sources
 			foreach ( $this->options [VideoExt::SOURCES] as $source ) {
 				$video_source = new \Brick ( 'source' );
-				$video_source->attr ( 'src', $source ['src'] );
+				
+				$file = $this->page->file ( $source ['src'] );
+				$url_video = ($file) ? $file->url () : $source ['src'];
+				$video_source->attr ( 'src', $url_video );
+				
 				if ($source ['type'] != null)
 					$video_source->attr ( 'type', $source ['type'] );
 				if ($source ['media'] != null)
@@ -216,17 +225,10 @@ class VideoExt {
 					$videoext->setOption ( $name, $value );
 			}
 			
-			// Sources
-			$file = $tag->file ( $tag->attr ( 'ogg' ) );
-			$url_ogg = ($file) ? $file->url () : $tag->attr ( 'ogg' );
-			$file = $tag->file ( $tag->attr ( 'mp4' ) );
-			$url_mp4 = ($file) ? $file->url () : $tag->attr ( 'mp4' );
-			$file = $tag->file ( $tag->attr ( 'webm' ) );
-			$url_webm = ($file) ? $file->url () : $tag->attr ( 'webm' );
-			
-			$videoext->addSource ( $url_ogg, 'video/ogg' );
-			$videoext->addSource ( $url_mp4, 'video/mp4' );
-			$videoext->addSource ( $url_webm, 'video/webm' );
+			// Sources		
+			$videoext->addSource ( $tag->attr ( 'ogg' ), 'video/ogg' );
+			$videoext->addSource ( $tag->attr ( 'mp4' ), 'video/mp4' );
+			$videoext->addSource ( $tag->attr ( 'webm' ), 'video/webm' );
 			
 			return $videoext->toHtml ();
 		} catch ( VideoExtException $e ) {

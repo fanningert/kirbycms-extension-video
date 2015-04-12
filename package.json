@@ -1,7 +1,7 @@
 {
     "name": "videoext",
     "readable": "HTML5-Video extended",
-    "version": "1.1",
+    "version": "1.2",
     "stable": true,
     "description": "Display a video via the HTML5 video tag.",
     "author": "Thomas Fanninger",
