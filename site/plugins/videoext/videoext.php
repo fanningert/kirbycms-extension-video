@@ -75,7 +75,7 @@ class VideoExt {
 	}
 	public function setOption($opt_name, $opt_value) {
 		if (array_key_exists ( $opt_name, $this->options ))
-			$this->options[$opt_name] = $opt_value;
+			$this->options [$opt_name] = $opt_value;
 		
 		return $this;
 	}
@@ -96,11 +96,13 @@ class VideoExt {
 	 * @return VideoExt
 	 */
 	public function addSource($video, $type = null, $media = null) {
-		$this->options [VideoExt::SOURCES] [] = array (
-				'src' => $video,
-				'type' => $type,
-				'media' => $media 
-		);
+		if (! empty ( $video )) {
+			$this->options [VideoExt::SOURCES] [] = array (
+					'src' => $video,
+					'type' => $type,
+					'media' => $media 
+			);
+		}
 		return $this;
 	}
 	
@@ -126,24 +128,24 @@ class VideoExt {
 		} else {
 			// Create over BRICK
 			$video = new \Brick ( 'video' );
-
-			// Add options
-			if($this->getOption(VideoExt::VIDEO_WIDTH) != null)
-				$video->attr('width', $this->getOption(VideoExt::VIDEO_WIDTH));
-			if ($this->getOption(VideoExt::VIDEO_HEIGHT) != null)
-				$video->attr('width', $this->getOption(VideoExt::VIDEO_HEIGHT));
-			if ($this->getOption(VideoExt::VIDEO_CLASS) != null)
-				$video->addClass($this->getOption(VideoExt::VIDEO_CLASS));
-			if ($this->getOption(VideoExt::OPTION_PRELOAD) != false)
-				$video->attr('preload', $this->getOption(VideoExt::OPTION_PRELOAD));
-			if ($this->getOption(VideoExt::OPTION_CONTROLS) == true)
-				$video->attr('controls', 'controls');
-			if ($this->getOption(VideoExt::OPTION_LOOP) == true)
-				$video->attr('loop', 'loop');
-			if ($this->getOption(VideoExt::OPTION_MUTED) == true)
-				$video->attr('muted', 'muted');
 			
-			//Add Sources
+			// Add options
+			if ($this->getOption ( VideoExt::VIDEO_WIDTH ) != null)
+				$video->attr ( 'width', $this->getOption ( VideoExt::VIDEO_WIDTH ) );
+			if ($this->getOption ( VideoExt::VIDEO_HEIGHT ) != null)
+				$video->attr ( 'width', $this->getOption ( VideoExt::VIDEO_HEIGHT ) );
+			if ($this->getOption ( VideoExt::VIDEO_CLASS ) != null)
+				$video->addClass ( $this->getOption ( VideoExt::VIDEO_CLASS ) );
+			if ($this->getOption ( VideoExt::OPTION_PRELOAD ) != false)
+				$video->attr ( 'preload', $this->getOption ( VideoExt::OPTION_PRELOAD ) );
+			if ($this->getOption ( VideoExt::OPTION_CONTROLS ) == true)
+				$video->attr ( 'controls', 'controls' );
+			if ($this->getOption ( VideoExt::OPTION_LOOP ) == true)
+				$video->attr ( 'loop', 'loop' );
+			if ($this->getOption ( VideoExt::OPTION_MUTED ) == true)
+				$video->attr ( 'muted', 'muted' );
+				
+				// Add Sources
 			foreach ( $this->options [VideoExt::SOURCES] as $source ) {
 				$video_source = new \Brick ( 'source' );
 				$video_source->attr ( 'src', $source ['src'] );
@@ -151,10 +153,10 @@ class VideoExt {
 					$video_source->attr ( 'type', $source ['type'] );
 				if ($source ['media'] != null)
 					$video_source->attr ( 'media', $source ['media'] );
-				$video->append($video_source);
+				$video->append ( $video_source );
 			}
 			
-			//Add optional caption
+			// Add optional caption
 			$figure_caption = '';
 			if ($this->getOption ( VideoExt::CAPTION ) != null) {
 				$caption = ( string ) $this->convert ( $this->getOption ( VideoExt::CAPTION ) );
@@ -165,11 +167,15 @@ class VideoExt {
 				$figure = new \Brick ( 'figure' );
 				if ($this->getOption ( VideoExt::CAPTION_CLASS ) != null)
 					$figure->addClass ( $this->getOption ( VideoExt::CAPTION_CLASS ) );
-				if ($this->isCaptionTop () && ! empty ( $figure_caption ))
+				if ($this->isCaptionTop () && ! empty ( $figure_caption )) {
+					$figure_caption->addClass ( 'caption-top' );
 					$figure->append ( $figure_caption );
+				}
 				$figure->append ( $video );
-				if (! $this->isCaptionTop () && ! empty ( $figure_caption ))
+				if (! $this->isCaptionTop () && ! empty ( $figure_caption )) {
+					$figure_caption->addClass ( 'caption-bottom' );
 					$figure->append ( $figure_caption );
+				}
 				
 				return ( string ) $figure->toString ();
 			} else {
@@ -204,9 +210,9 @@ class VideoExt {
 	public static function executeTag($tag) {
 		try {
 			$videoext = new VideoExt ( $tag->page () );
-
-			foreach(\kirbytext::$tags['videoext']['attr'] as $name) {
-				if( !empty($value = $tag->attr($name)) )
+			
+			foreach ( \kirbytext::$tags ['videoext'] ['attr'] as $name ) {
+				if (! empty ( $value = $tag->attr ( $name ) ))
 					$videoext->setOption ( $name, $value );
 			}
 			
@@ -218,11 +224,11 @@ class VideoExt {
 			$file = $tag->file ( $tag->attr ( 'webm' ) );
 			$url_webm = ($file) ? $file->url () : $tag->attr ( 'webm' );
 			
-			if ( !empty($url_ogg) )
+			if (! empty ( $url_ogg ))
 				$videoext->addSource ( $url_ogg, 'video/ogg' );
-			if ( !empty($url_mp4) )
+			if (! empty ( $url_mp4 ))
 				$videoext->addSource ( $url_mp4, 'video/mp4' );
-			if ( !empty($url_webm) )
+			if (! empty ( $url_webm ))
 				$videoext->addSource ( $url_webm, 'video/webm' );
 			
 			return $videoext->toHtml ();
