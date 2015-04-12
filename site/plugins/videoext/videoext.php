@@ -71,7 +71,7 @@ class VideoExt {
 		$this->setOption ( VideoExt::OPTION_AUTOPLAY, kirby ()->option ( 'kirby.extension.videoext.autoplay', false ) );
 		$this->setOption ( VideoExt::CAPTION, kirby ()->option ( 'kirby.extension.videoext.caption', null ) );
 		$this->setOption ( VideoExt::CAPTION_TOP, kirby ()->option ( 'kirby.extension.videoext.caption_top', false ) );
-		$this->setOption ( VideoExt::CAPTION_CLASS, kirby ()->option ( 'kirby.extension.videoext.caption_class', null ) );
+		$this->setOption ( VideoExt::CAPTION_CLASS, kirby ()->option ( 'kirby.extension.videoext.caption_class', 'video' ) );
 	}
 	public function setOption($opt_name, $opt_value) {
 		if (array_key_exists ( $opt_name, $this->options ))
@@ -218,9 +218,12 @@ class VideoExt {
 			$file = $tag->file ( $tag->attr ( 'webm' ) );
 			$url_webm = ($file) ? $file->url () : $tag->attr ( 'webm' );
 			
-			$videoext->addSource ( $url_ogg, 'video/ogg' );
-			$videoext->addSource ( $url_mp4, 'video/mp4' );
-			$videoext->addSource ( $url_webm, 'video/webm' );
+			if ( !empty($url_ogg) )
+				$videoext->addSource ( $url_ogg, 'video/ogg' );
+			if ( !empty($url_mp4) )
+				$videoext->addSource ( $url_mp4, 'video/mp4' );
+			if ( !empty($url_webm) )
+				$videoext->addSource ( $url_webm, 'video/webm' );
 			
 			return $videoext->toHtml ();
 		} catch ( VideoExtException $e ) {
