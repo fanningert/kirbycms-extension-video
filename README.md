@@ -106,7 +106,9 @@ Insert the config line `c::set('kirby.extension.videoext.video_tag', true);` int
 
 ## v1.1
 
-* Change the default value of `kirby.extension.videoext.video_tag` from `false` to `true`.
+* Clean up
+* Add to the figcaption a  CSS class to realize if the tag is at the top or bottom.
+* Fix: ignore empty sources at the method addSource
 
 ## v1.0
 
