@@ -142,6 +142,8 @@ class VideoExt {
 				$video->attr ( 'controls', 'controls' );
 			if ($this->getOption ( VideoExt::OPTION_LOOP ) == true)
 				$video->attr ( 'loop', 'loop' );
+			if ($this->getOption ( VideoExt::OPTION_AUTOPLAY ) == true)
+				$video->attr ( 'autoplay', 'autoplay' );
 			if ($this->getOption ( VideoExt::OPTION_MUTED ) == true)
 				$video->attr ( 'muted', 'muted' );
 			if ($this->getOption ( VideoExt::POSTER ) != null){
