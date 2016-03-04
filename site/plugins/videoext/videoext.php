@@ -227,10 +227,10 @@ class VideoExt {
 					$videoext->setOption ( $name, $value );
 			}
 			
-			// Sources		
-			$videoext->addSource ( $tag->attr ( 'ogg' ), 'video/ogg' );
+			// Sources	
+			$videoext->addSource ( $tag->attr ( 'webm' ), 'video/webm' );	
 			$videoext->addSource ( $tag->attr ( 'mp4' ), 'video/mp4' );
-			$videoext->addSource ( $tag->attr ( 'webm' ), 'video/webm' );
+			$videoext->addSource ( $tag->attr ( 'ogg' ), 'video/ogg' );
 			
 			return $videoext->toHtml ();
 		} catch ( VideoExtException $e ) {
