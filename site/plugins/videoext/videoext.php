@@ -136,15 +136,15 @@ class VideoExt {
 				$video->attr ( 'width', $this->getOption ( VideoExt::VIDEO_HEIGHT ) );
 			if ($this->getOption ( VideoExt::VIDEO_CLASS ) != null)
 				$video->addClass ( $this->getOption ( VideoExt::VIDEO_CLASS ) );
-			if ($this->getOption ( VideoExt::OPTION_PRELOAD ) != false)
+			if ($this->getOption ( VideoExt::OPTION_PRELOAD ) !== false)
 				$video->attr ( 'preload', $this->getOption ( VideoExt::OPTION_PRELOAD ) );
-			if ($this->getOption ( VideoExt::OPTION_CONTROLS ) == true)
+			if ($this->getOption ( VideoExt::OPTION_CONTROLS ) === true)
 				$video->attr ( 'controls', 'controls' );
-			if ($this->getOption ( VideoExt::OPTION_LOOP ) == true)
+			if ($this->getOption ( VideoExt::OPTION_LOOP ) === true)
 				$video->attr ( 'loop', 'loop' );
-			if ($this->getOption ( VideoExt::OPTION_AUTOPLAY ) == true)
+			if ($this->getOption ( VideoExt::OPTION_AUTOPLAY ) === true)
 				$video->attr ( 'autoplay', 'autoplay' );
-			if ($this->getOption ( VideoExt::OPTION_MUTED ) == true)
+			if ($this->getOption ( VideoExt::OPTION_MUTED ) === true)
 				$video->attr ( 'muted', 'muted' );
 			if ($this->getOption ( VideoExt::POSTER ) != null){
 				$file = $this->page->file ( $this->getOption ( VideoExt::POSTER ) );
@@ -223,8 +223,12 @@ class VideoExt {
 			$videoext = new VideoExt ( $tag->page () );
 			
 			foreach ( \kirbytext::$tags ['videoext'] ['attr'] as $name ) {
-				if (! empty ( $value = $tag->attr ( $name ) ))
+				$value = $tag->attr ( $name );
+				if (!empty( $value )) {
+					$value = ( is_string($value) && $value === 'true' )? true : $value;
+					$value = ( is_string($value) && $value === 'false' )? false : $value;
 					$videoext->setOption ( $name, $value );
+				}
 			}
 			
 			// Sources	
